@@ -19,12 +19,18 @@ iridia.localizedString = new JS.Singleton({
 		this._storage = {};
 		this._defaultLocale = "en-us";
 		
-		this.setPreferredLocale(navigator.language);
+		this.setPreferredLocale(navigator.language || this._defaultLocale)
+		
+		if (iridia.presets !== undefined)
+		if (iridia.presets.localizedString !== undefined)
+		this.setPreferredLocale(iridia.presets.localizedString.preferredLocales);
 	
 	},
 	
 	
 	setPreferredLocale: function (inLocale) {
+	
+		if (inLocale === undefined) mono.die(mono.error("iridia.localizedString was passed an undefiend locale, bailing."));
 	
 		if (inLocale instanceof Array) {
 			
