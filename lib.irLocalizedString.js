@@ -17,7 +17,7 @@ iridia.localizedString = new JS.Singleton({
 	initialize: function () {
 
 		this._storage = {};
-		this._defaultLocale = "en";
+		this._defaultLocale = "en-us";
 		
 		this.setPreferredLocale(navigator.language);
 	
@@ -26,7 +26,7 @@ iridia.localizedString = new JS.Singleton({
 	
 	setPreferredLocale: function (inLocale) {
 	
-		if (inLocale.hasOwnProperty("length")) {
+		if (inLocale instanceof Array) {
 			
 			var thisObject = this;
 			
@@ -34,7 +34,7 @@ iridia.localizedString = new JS.Singleton({
 		
 			$.each(inLocale, function (indexOfLocale, localeToPush) {
 			
-				thisObject._preferredLocales.pushIfNotEmpty(String(localeToPush));
+				thisObject._preferredLocales.pushIfNotEmpty(String(localeToPush).toLowerCase());
 			
 			});
 			
@@ -42,7 +42,7 @@ iridia.localizedString = new JS.Singleton({
 		
 		} else {
 		
-			this._preferredLocales = [String(inLocale), "en"].makeUnique();
+			this._preferredLocales = [String(inLocale).toLowerCase(), "en"].makeUnique();
 		
 		}
 	
@@ -52,7 +52,10 @@ iridia.localizedString = new JS.Singleton({
 	registerStrings: function (inCategoryName, inLocale, inStringsObject) {
 	
 		if (typeof inCategoryName != "string") return;
+		
 		if (typeof inLocale != "string") return;
+		inLocale = inLocale.toLowerCase();
+		
 		if (typeof inStringsObject != "object") return;
 	
 		
@@ -62,9 +65,11 @@ iridia.localizedString = new JS.Singleton({
 		if (!this._storage[inCategoryName].hasOwnProperty(inLocale))
 		this._storage[inCategoryName][inLocale] = {};
 		
+		var thisObject = this;
+		
 		$.each(inStringsObject, function (inKeyOfString, inLocalizedString) {
 		
-			this._storage[inCategoryName][inLocale][inKeyOfString] = String(inLocalizedString);
+			thisObject._storage[inCategoryName][inLocale][inKeyOfString] = String(inLocalizedString);
 		
 		});
 	
@@ -81,8 +86,8 @@ iridia.localizedString = new JS.Singleton({
 		var responseString = undefined;
 		var thisObject = this;
 		
-		$.each(thisObject.preferredLocales, function (indesOfLocale, localeToQuery) {
-		
+		$.each(thisObject._preferredLocales, function (indexOfLocale, localeToQuery) {
+				
 			if (thisObject._storage[inCategoryName][localeToQuery] === undefined) return true;
 			
 			if (thisObject._storage[inCategoryName][localeToQuery][inStringKey] === undefined) return true;
