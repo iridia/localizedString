@@ -1,6 +1,6 @@
 #	`iridia.localizedString`
 
-Localized string support for JavaScript.  This library lives under the shared `iridia` namespace.  `iridia.localizedString` wants that you manually manage the language files (e.g. by loading them with `LABjs`) and these files will register the strings they understand with localizedString.  When you need a localized string, ask the system by `iridia.localizedString.stringForKey(theKey)`.
+Localized string support for JavaScript.  This library lives under the shared `iridia` namespace.  `iridia.localizedString` wants that you manually manage the language files (e.g. by loading them with `LABjs`) and these files will register the strings they understand with localizedString.  When you need a localized string, ask the system by `iridia.localizedString.stringForKey(theKey)`.  The default locale is always `en-us` by now.
 
 This project works with `jQuery`, `JSClass`, and `monoArray`.
 
@@ -8,7 +8,11 @@ This project works with `jQuery`, `JSClass`, and `monoArray`.
 
 
 
-##	Using (Examples)
+##	Usage
+
+
+
+
 
 ###	Main Application Initialization
 
@@ -17,10 +21,9 @@ This project works with `jQuery`, `JSClass`, and `monoArray`.
 	iridia.localizedString.setPreferredLocales(["zh-TW", "en-US"]);
 	
 	
-	//	Ask for a localized string
+	//	Ask for a localized string, e.g. this function returns the string associated with the key {theKey} under category {theCategory}.
 
 	iridia.localizedString.stringForKey("{theCategory}", "{theKey}");
-	//	returns the string associated with the key {theKey} under category {theCategory}.
 
 
 
